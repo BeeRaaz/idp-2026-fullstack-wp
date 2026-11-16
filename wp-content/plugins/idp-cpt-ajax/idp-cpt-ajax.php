@@ -22,6 +22,7 @@ require_once IDP_CPT_AJAX_DIR . 'includes/post-types.php';
 require_once IDP_CPT_AJAX_DIR . 'includes/meta.php';
 require_once IDP_CPT_AJAX_DIR . 'includes/templates.php';
 require_once IDP_CPT_AJAX_DIR . 'includes/ajax.php';
+require_once IDP_CPT_AJAX_DIR . 'includes/rest.php';
 require_once IDP_CPT_AJAX_DIR . 'cli/class-idp-cpt-ajax-seed-command.php';
 
 /**

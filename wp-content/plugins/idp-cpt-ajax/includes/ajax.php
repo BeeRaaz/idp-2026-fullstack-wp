@@ -124,6 +124,7 @@ function idp_cpt_ajax_enqueue_assets() {
 		array(
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => wp_create_nonce( 'idp_filter_events' ),
+			'restUrl' => esc_url_raw( rest_url( 'idp/v1/events' ) ),
 		)
 	);
 }

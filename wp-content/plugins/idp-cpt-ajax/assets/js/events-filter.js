@@ -9,7 +9,10 @@
 		return;
 	}
 
-	function request( page ) {
+	// Transport: "ajax" (admin-ajax, default) or "rest". Switch with ?transport=rest for comparison.
+	var transport = new URLSearchParams( window.location.search ).get( 'transport' ) === 'rest' ? 'rest' : 'ajax';
+
+	function requestAjax( page ) {
 		var body = new URLSearchParams( new FormData( form ) );
 		body.append( 'action', 'idp_filter_events' );
 		body.append( 'nonce', idpEvents.nonce );
@@ -22,6 +25,24 @@
 		} ).then( function ( res ) {
 			return res.json();
 		} );
+	}
+
+	function requestRest( page ) {
+		var params = new URLSearchParams( new FormData( form ) );
+		params.append( 'page', page );
+
+		return fetch( idpEvents.restUrl + '?' + params.toString(), {
+			credentials: 'same-origin'
+		} ).then( function ( res ) {
+			return res.json();
+		} ).then( function ( data ) {
+			// Normalize to the admin-ajax shape: { success, data }.
+			return { success: !! data && typeof data.html === 'string', data: data };
+		} );
+	}
+
+	function request( page ) {
+		return transport === 'rest' ? requestRest( page ) : requestAjax( page );
 	}
 
 	function render( data, append ) {
