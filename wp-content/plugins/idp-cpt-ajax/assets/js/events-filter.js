@@ -61,8 +61,21 @@
 		moreBtn.hidden = parseInt( moreBtn.dataset.page, 10 ) >= parseInt( moreBtn.dataset.max, 10 );
 	}
 
+	// Keep the filters in the URL (shareable, survives refresh). Skips empty values and language.
+	function syncUrl() {
+		var params = new URLSearchParams();
+		new FormData( form ).forEach( function ( value, key ) {
+			if ( value !== '' && key !== 'lang' ) {
+				params.set( key, value );
+			}
+		} );
+		var qs = params.toString();
+		window.history.replaceState( null, '', window.location.pathname + ( qs ? '?' + qs : '' ) + ( transport === 'rest' ? ( qs ? '&' : '?' ) + 'transport=rest' : '' ) );
+	}
+
 	form.addEventListener( 'submit', function ( e ) {
 		e.preventDefault();
+		syncUrl();
 		results.setAttribute( 'aria-busy', 'true' );
 		request( 1 ).then( function ( data ) {
 			moreBtn.dataset.page = 1;

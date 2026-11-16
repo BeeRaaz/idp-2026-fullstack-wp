@@ -9,6 +9,8 @@ defined( 'ABSPATH' ) || exit;
 
 idp_cpt_ajax_header();
 
+$idp_filters = idp_cpt_ajax_get_request_filters();
+
 $idp_types = get_terms(
 	array(
 		'taxonomy'   => 'idp_event_type',
@@ -25,7 +27,7 @@ $idp_types = get_terms(
 		<input type="hidden" name="lang" value="<?php echo esc_attr( idp_cpt_ajax_current_lang() ); ?>">
 		<label>
 			<span><?php esc_html_e( 'Search', 'idp-cpt-ajax' ); ?></span>
-			<input type="search" name="search">
+			<input type="search" name="search" value="<?php echo esc_attr( $idp_filters['search'] ); ?>">
 		</label>
 		<label>
 			<span><?php esc_html_e( 'Type', 'idp-cpt-ajax' ); ?></span>
@@ -33,21 +35,21 @@ $idp_types = get_terms(
 				<option value=""><?php esc_html_e( 'All types', 'idp-cpt-ajax' ); ?></option>
 				<?php if ( ! is_wp_error( $idp_types ) ) : ?>
 					<?php foreach ( $idp_types as $idp_type ) : ?>
-						<option value="<?php echo esc_attr( $idp_type->slug ); ?>"><?php echo esc_html( $idp_type->name ); ?></option>
+						<option value="<?php echo esc_attr( $idp_type->slug ); ?>"<?php selected( $idp_filters['type'], $idp_type->slug ); ?>><?php echo esc_html( $idp_type->name ); ?></option>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</select>
 		</label>
 		<label>
 			<span><?php esc_html_e( 'From date', 'idp-cpt-ajax' ); ?></span>
-			<input type="date" name="date_from">
+			<input type="date" name="date_from" value="<?php echo esc_attr( $idp_filters['date_from'] ); ?>">
 		</label>
 		<button type="submit"><?php esc_html_e( 'Filter', 'idp-cpt-ajax' ); ?></button>
 	</form>
 
 	<div id="idp-events-results" aria-live="polite">
 		<?php
-		$idp_result = idp_cpt_ajax_query_events( array( 'lang' => idp_cpt_ajax_current_lang() ) );
+		$idp_result = idp_cpt_ajax_query_events( array_merge( $idp_filters, array( 'lang' => idp_cpt_ajax_current_lang() ) ) );
 		echo $idp_result['html']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped template parts.
 		?>
 	</div>

@@ -11,7 +11,8 @@
 - Plugin `idp-cpt-ajax`: CPT `idp_event` (archive slug `events`), taxonomy `idp_event_type`, meta `idp_event_date|location|capacity` via `register_post_meta` (REST-exposed, sanitized) and a nonce-protected meta box.
 - Flush rewrite rules on activation/deactivation, not on every `init`.
 - Templates ship in the plugin and can be overridden in a theme at `idp-cpt-ajax/<file>`. Block themes need the header/footer built with `do_blocks()` template parts (see `includes/templates.php`).
-- Known gap: ordering by `meta_key` hides events with no date.
+- Ordering: a plain `meta_key` + `orderby=meta_value` query silently drops posts without that meta. Fix used: meta_query `relation OR` (key EXISTS + key NOT EXISTS) with a named clause (`idp_date`) for ordering, plus a `posts_orderby` filter to push undated events last.
+- Filter state lives in the URL (`?search=&type=&date_from=`): the archive template reads and sanitizes GET values, so links are shareable and the form works without JS; JS keeps the URL in sync with `history.replaceState`.
 ## AJAX (admin-ajax vs REST)
 Same filter implemented both ways, sharing one query function (`idp_cpt_ajax_query_events`). Switch in the browser with `/events/?transport=rest`.
 

@@ -38,9 +38,6 @@ function idp_cpt_ajax_query_events( $args ) {
 		'post_status'    => 'publish',
 		'posts_per_page' => 6,
 		'paged'          => max( 1, (int) $args['page'] ),
-		'meta_key'       => 'idp_event_date', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		'orderby'        => 'meta_value',
-		'order'          => 'ASC',
 	);
 
 	if ( '' !== $args['lang'] ) {
@@ -62,15 +59,35 @@ function idp_cpt_ajax_query_events( $args ) {
 	}
 
 	if ( '' !== $args['date_from'] ) {
+		// Date filter: only dated events can match.
 		$query_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			array(
+			'idp_date' => array(
 				'key'     => 'idp_event_date',
 				'value'   => $args['date_from'],
 				'compare' => '>=',
 				'type'    => 'DATE',
 			),
 		);
+	} else {
+		// No date filter: include events without a date too (OR EXISTS / NOT EXISTS), undated last.
+		$query_args['idp_undated_last'] = true;
+		$query_args['meta_query']       = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'relation' => 'OR',
+			'idp_date' => array(
+				'key'     => 'idp_event_date',
+				'compare' => 'EXISTS',
+			),
+			array(
+				'key'     => 'idp_event_date',
+				'compare' => 'NOT EXISTS',
+			),
+		);
 	}
+
+	$query_args['orderby'] = array(
+		'idp_date' => 'ASC',
+		'title'    => 'ASC',
+	);
 
 	$query = new WP_Query( $query_args );
 
@@ -136,3 +153,43 @@ function idp_cpt_ajax_enqueue_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'idp_cpt_ajax_enqueue_assets' );
+
+/**
+ * Put events without a date after dated ones (only for queries flagged idp_undated_last).
+ *
+ * @param string   $orderby SQL ORDER BY clause.
+ * @param WP_Query $query   Query.
+ * @return string
+ */
+function idp_cpt_ajax_orderby_undated_last( $orderby, $query ) {
+	if ( ! $query->get( 'idp_undated_last' ) || empty( $query->meta_query ) ) {
+		return $orderby;
+	}
+
+	$clauses = $query->meta_query->get_clauses();
+
+	if ( empty( $clauses['idp_date']['alias'] ) ) {
+		return $orderby;
+	}
+
+	global $wpdb;
+	$alias = preg_replace( '/[^A-Za-z0-9_]/', '', $clauses['idp_date']['alias'] );
+
+	return "CASE WHEN {$alias}.meta_value IS NULL THEN 1 ELSE 0 END ASC, {$alias}.meta_value ASC, {$wpdb->posts}.post_title ASC";
+}
+add_filter( 'posts_orderby', 'idp_cpt_ajax_orderby_undated_last', 10, 2 );
+
+/**
+ * Read and sanitize filter values from the URL (GET). Read-only, so no nonce needed.
+ *
+ * @return array{search:string,type:string,date_from:string}
+ */
+function idp_cpt_ajax_get_request_filters() {
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	return array(
+		'search'    => isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '',
+		'type'      => isset( $_GET['type'] ) ? sanitize_title( wp_unslash( $_GET['type'] ) ) : '',
+		'date_from' => isset( $_GET['date_from'] ) ? idp_cpt_ajax_sanitize_date( sanitize_text_field( wp_unslash( $_GET['date_from'] ) ) ) : '',
+	);
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+}
