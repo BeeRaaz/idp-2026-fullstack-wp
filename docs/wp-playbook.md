@@ -43,6 +43,11 @@ What the code does (`includes/polylang.php`, all no-ops without Polylang):
 - UI strings come from the plugin's own `.po/.mo` (`languages/`, generated with `wp i18n make-pot`; `idp-cpt-ajax-ne_NP.po` is a draft translation, review before real use).
 - `wpml-config.xml` at the plugin root: Polylang reads this WPML-format file for post types, taxonomies and custom-field behavior, so the same plugin is portable to WPML. It overlaps with the PHP filters; the filters are the guaranteed path.
 
+Seeding translations (WP-CLI, run from Local's "Open site shell"):
+- `wp idp seed-events --count=12 --translate`: create events plus linked Nepali copies.
+- `wp idp translate-events`: translate existing events that have no Nepali version yet (also assigns the default language to events/types with none). Safe to re-run.
+- Linking uses `pll_set_post_language` + `pll_save_post_translations` (and the term equivalents); meta (date, capacity) is copied, location is translated.
+
 WPML vs Polylang (notes for later comparison):
 - WPML: paid, translation management/workflow, string/ATE tooling, heavier. Polylang free: language/UI basics, translations edited by hand; Pro adds slugs translation, REST, etc.
 - Both: translations are separate posts linked by language; content in default language is the "source".
