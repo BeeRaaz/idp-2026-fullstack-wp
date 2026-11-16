@@ -20,8 +20,17 @@ if [[ -z "$BUNDLE" || -z "$TARGET_URL" || ! -f "$BUNDLE/manifest.env" ]]; then
 	exit 1
 fi
 
-# shellcheck disable=SC1091
-source "$BUNDLE/manifest.env"
+# Read the manifest as data (do NOT `source` it: values can contain spaces).
+manifest_get() {
+	grep -m1 "^$1=" "$BUNDLE/manifest.env" | cut -d= -f2- | sed -e 's/^"//' -e 's/"$//'
+}
+SOURCE_URL="$(manifest_get SOURCE_URL)"
+SOURCE_PATH="$(manifest_get SOURCE_PATH)"
+
+if [[ -z "$SOURCE_URL" || -z "$SOURCE_PATH" ]]; then
+	echo "manifest.env is missing SOURCE_URL or SOURCE_PATH." >&2
+	exit 1
+fi
 TARGET_URL="${TARGET_URL%/}"
 
 if [[ "$SOURCE_PATH" == "$ROOT" ]]; then

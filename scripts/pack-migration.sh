@@ -20,8 +20,8 @@ if [[ -d "$ROOT/wp-content/uploads" ]]; then
 fi
 
 {
-	echo "SOURCE_URL=$(wp option get siteurl)"
-	echo "SOURCE_PATH=$ROOT"
+	echo "SOURCE_URL=\"$(wp option get siteurl)\""
+	echo "SOURCE_PATH=\"$ROOT\""
 	echo "SOURCE_GIT_REF=$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 	echo "CREATED=$STAMP"
 } > "$BUNDLE/manifest.env"
