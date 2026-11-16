@@ -44,22 +44,38 @@ Build one realistic demo: a "Property/Events directory" style site that touches 
 
 Deliverables: working demo plugin/theme, `docs/wp-playbook.md`, short team share-out (satisfies "use-case recommendations documented or shared").
 
-## Phase 2 – WordPress builders (IDP #5), Weeks 5–9
+## Phase 2 – WordPress builders (IDP #5), Weeks 5–11
 
-Pick at least 2 builders (suggest **Elementor** or **Divi**, plus **WPBakery** or **Beaver Builder**; add Gutenberg/block theme FSE as a baseline). Build the **same 3 pages** in each so the comparison is fair:
+Builders: **Elementor**, **Beaver Builder**, **Divi**, **WPBakery** (IDP asks for at least 2; the other two are extra), plus native blocks / block theme as a baseline.
+
+Access: Elementor and Beaver Builder are tested on free/Lite versions (record which features are Pro-only, e.g. dynamic CPT loops and theme builders). Divi and WPBakery are paid and installed from licensed zips.
+
+Build the **same 3 pages** in each so the comparison is fair:
 1. Landing page (hero, features grid, CTA, form)
-2. Listing page driven by the CPT from Phase 1 (dynamic content)
+2. Listing page driven by the CPT from Phase 1 (dynamic content; where the free tier can't do it, record that and use the closest alternative, e.g. shortcode)
 3. Blog/single template with global header/footer
+
+Order (the first two satisfy the IDP minimum, the rest are extra if time allows):
+1. Elementor, then Beaver Builder (both free to start)
+2. Native blocks baseline
+3. Divi, then WPBakery
 
 | Wk | Task | Deliverable |
 |----|------|-------------|
 | 5–6 | Research: pricing, market share, licensing, architecture (shortcodes vs JSON vs blocks), dev extensibility | Notes in `docs/builders-matrix.md` |
-| 6–7 | Builder A: build the 3 pages, one custom widget/module | Demo + time taken |
-| 7–8 | Builder B: same 3 pages, one custom widget/module | Demo + time taken |
-| 8 | Baseline: same pages as native blocks / block theme | Demo |
-| 9 | Measure + write-up | Matrix |
+| 6–7 | Elementor: 3 pages + one custom widget | Demo + time taken |
+| 7 | Beaver Builder: 3 pages | Demo + time taken |
+| 8 | Divi: 3 pages | Demo + time taken |
+| 9 | WPBakery: 3 pages + one custom element | Demo + time taken |
+| 10 | Native blocks baseline + Lighthouse / page weight for all | Measurements |
+| 10–11 | Write-up | Matrix + recommendations |
 
-Comparison criteria: build time, flexibility, dynamic data support, performance (Lighthouse, page weight, DOM size), output cleanliness, lock-in on deactivation, maintainability/updates, scalability, dev extensibility, cost. End with "recommend builder X when…" per use case.
+Where demo work lives: pages are stored in the database, not git. Keep each builder's pages on a separate set of pages (prefix `Elementor – `, etc.), export them (Tools > Export / the builder's template export) into `docs/builders/<name>/`, and record screenshots plus times.
+
+Comparison criteria: build time, flexibility, dynamic data support, performance (Lighthouse, page weight, DOM size), output cleanliness, lock-in on deactivation, maintainability/updates, scalability, dev extensibility, cost.
+End with "recommend builder X when…" per use case.
+
+Four builders instead of two adds roughly 25 hours to the original estimate, so Phase 2 now ends around week 11 (see `docs/estimates.md`).
 
 ## Cross-cutting (apply throughout)
 
@@ -76,12 +92,13 @@ Comparison criteria: build time, flexibility, dynamic data support, performance 
 | End Wk 1 | Repo pushed, tooling done, estimates logged |
 | End Wk 3 | CPT + AJAX plugin reviewed by Tech Lead |
 | End Wk 5 | WPML + migration playbook done |
-| End Wk 8 | 2 builders + baseline demos complete |
-| End Wk 9 | Builder matrix + playbook shared with team; final estimate-vs-actual review |
+| End Wk 7 | Elementor + Beaver Builder demos (IDP minimum of 2 met) |
+| End Wk 10 | Divi, WPBakery, baseline and measurements done |
+| End Wk 11 | Builder matrix + playbook shared with team; final estimate-vs-actual review |
 
 ## Note on timeline
 
-The IDP is dated June 2026 with 6-month goals, which lands around December 2026. This 9-week plan fits if you start now; if the deadline is firm, run Phase 2 research in parallel with Phase 1 weeks 3–5.
+The IDP is dated June 2026 with 6-month goals, which lands around December 2026. The plan is now about 11 weeks, which runs past that date. If the deadline is firm, finish Elementor + Beaver Builder (the IDP minimum) first and treat Divi and WPBakery as extras, and run Phase 2 research in parallel with Phase 1.
 
 ## Optional stretch
 

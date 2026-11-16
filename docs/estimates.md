@@ -25,16 +25,20 @@ Deviation % = (Actual - Estimate incl. buffer) / Estimate incl. buffer.
 | 5 | Study 2-3 complex open-source projects, write patterns | research | 4.0 | 1.0 | | | |
 | 5 | Playbook cleanup + team share-out | docs | 3.0 | 0.5 | | | |
 | 5-6 | Builders research (pricing, architecture, extensibility) | research | 4.0 | 1.0 | | | |
-| 6 | Builder A: landing page | builder | 3.0 | 0.5 | | | |
-| 6-7 | Builder A: CPT listing (dynamic) + blog/single template | builder | 4.0 | 1.0 | | | |
-| 7 | Builder A: custom widget/module | builder | 4.0 | 1.0 | | | |
-| 7 | Builder B: landing page | builder | 3.0 | 0.5 | | | |
-| 7-8 | Builder B: CPT listing (dynamic) + blog/single template | builder | 4.0 | 1.0 | | | |
-| 8 | Builder B: custom widget/module | builder | 4.0 | 1.0 | | | |
-| 8 | Native blocks / FSE baseline: 3 pages | builder | 4.0 | 1.0 | | | |
-| 9 | Lighthouse + page weight measurements for all 3 | analysis | 3.0 | 0.5 | | | |
-| 9 | Builders matrix + recommendations write-up | docs | 3.0 | 0.5 | | | |
-| 9 | Final estimate-vs-actual review with PM / Tech Lead | review | 1.5 | 0.5 | | | |
+| 6 | Elementor (free): landing page | builder | 3.0 | 0.5 | | | |
+| 6 | Elementor: CPT listing + blog/single (dynamic needs Pro/Theme Builder; note limits) | builder | 4.0 | 1.0 | | | |
+| 7 | Elementor: custom widget | builder | 4.0 | 1.0 | | | |
+| 7 | Beaver Builder Lite: landing page | builder | 3.0 | 0.5 | | | |
+| 7 | Beaver Builder: CPT listing + blog/single (dynamic needs Pro; note limits) | builder | 4.0 | 1.0 | | | |
+| 8 | Divi: landing page | builder | 3.0 | 0.5 | | | |
+| 8 | Divi: CPT listing + blog/single | builder | 4.0 | 1.0 | | | |
+| 9 | WPBakery: landing page | builder | 3.0 | 0.5 | | | |
+| 9 | WPBakery: CPT listing + blog/single | builder | 4.0 | 1.0 | | | |
+| 9 | WPBakery: custom element | builder | 4.0 | 1.0 | | | |
+| 10 | Native blocks / FSE baseline: 3 pages | builder | 4.0 | 1.0 | | | |
+| 10 | Lighthouse + page weight measurements for all builders + baseline | analysis | 3.0 | 0.5 | | | |
+| 10-11 | Builders matrix + recommendations write-up | docs | 3.0 | 0.5 | | | |
+| 11 | Final estimate-vs-actual review with PM / Tech Lead | review | 1.5 | 0.5 | | | |
 
 ## Weekly review
 - Week 1:
