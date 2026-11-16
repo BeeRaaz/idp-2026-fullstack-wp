@@ -1,0 +1,19 @@
+{
+	"name": "p2h/idp-2026-fullstack-wp",
+	"description": "IDP 2026 WordPress track: custom code and tooling.",
+	"type": "project",
+	"require-dev": {
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"phpcs": "phpcs",
+		"phpcbf": "phpcbf"
+	}
+}

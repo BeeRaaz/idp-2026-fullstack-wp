@@ -1,0 +1,32 @@
+# WordPress core (not tracked; reinstall via WP-CLI / Local)
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
+/local-xdebuginfo.php
+/.htaccess
+
+# Secrets / environment
+/wp-config.php
+
+# wp-content: track only custom code
+/wp-content/*
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/idp-builders-lab/
+!/wp-content/plugins/
+/wp-content/plugins/*
+!/wp-content/plugins/idp-cpt-ajax/
+!/wp-content/mu-plugins/
+
+# Tooling
+/vendor/
+/node_modules/
+.DS_Store
+*.log
+*.sql
+*.sql.gz
+.phpcs.cache

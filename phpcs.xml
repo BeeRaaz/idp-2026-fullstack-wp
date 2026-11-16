@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="IDP WordPress Standards">
+	<description>WordPress Coding Standards for custom code only.</description>
+
+	<file>wp-content/plugins/idp-cpt-ajax</file>
+	<file>wp-content/themes/idp-builders-lab</file>
+	<file>wp-content/mu-plugins</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg name="cache" value=".phpcs.cache"/>
+	<arg value="ps"/>
+
+	<config name="minimum_wp_version" value="6.5"/>
+	<config name="testVersion" value="8.1-"/>
+
+	<rule ref="WordPress"/>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="idp-cpt-ajax"/>
+				<element value="idp-builders-lab"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
