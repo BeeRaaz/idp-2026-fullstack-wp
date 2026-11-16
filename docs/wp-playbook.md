@@ -65,5 +65,34 @@ Rules of thumb:
 - After import: re-save permalinks (`wp rewrite flush`), clear caches, check `siteurl`/`home` (`wp option get siteurl`), and test a few pages/forms.
 - Reminder: don't commit `wp-config.php` or dumps; migrate secrets separately.
 ## Migration: client <-> staging checklist and rollback
-(To be written in the migration step; builds on the SQL scripts above.)
+Three things move separately: **code** (git), **database** and **uploads** (bundle). Core and third-party plugins are reinstalled, not copied.
+
+### One-time: create the target site
+1. Create a new Local site (e.g. `p2h-idp-staging`) with the same PHP/WP version.
+2. In its `public/` folder, in Local's shell:
+   `git init && git remote add origin git@github.com:BeeRaaz/idp-2026-fullstack-wp.git && git fetch && git checkout -f main`
+   (the `.gitignore` keeps WP core untracked, so only custom code is pulled).
+3. Install untracked plugins: `wp plugin install polylang --activate`, then activate `idp-cpt-ajax`.
+
+### Migrate (local -> staging)
+1. Source: commit and push code (`git push`).
+2. Source shell: `scripts/pack-migration.sh` -> creates `backups/migration-<stamp>/` (DB, uploads, manifest with the source URL/path).
+3. Target shell: `git pull`.
+4. Target shell: `scripts/apply-migration.sh <bundle-dir> <target-url>`. It imports the DB (with a pre-import backup), unpacks uploads, replaces URLs (http + https) and absolute paths, flushes rewrites, and prints siteurl/home/plugins.
+5. Verify: front page, `/events/`, `/ne/events/`, language switcher, AJAX filter and `?transport=rest`, a single event, wp-admin login, media library images, permalinks.
+
+### Migrate (staging -> client)
+Same steps with staging as the source. Extra care for a real client: lock staging first (maintenance mode) so no content is lost, back up the client site separately, confirm PHP/DB versions, make sure `wp-config.php` secrets/salts and `WP_HOME`/`WP_SITEURL` are set for the new host, disable search-engine blocking if going live, and handle caching/CDN purge.
+
+### Rollback
+- DB: `scripts/db-import.sh backups/db-pre-import-<stamp>.sql.gz` (the backup taken just before the import).
+- Uploads: extraction is additive, so rollback only needs deleting files you know were added; if in doubt restore from the target's own backup before starting.
+- Code: `git checkout <previous-commit>` (or `git revert`) and flush caches.
+- Decide go/no-go points before starting: if verification fails at step 5, roll back immediately and investigate on the copy.
+
+### Gotchas to watch for
+- Hardcoded URLs in theme/plugin files or builder JSON (search-replace handles DB only).
+- Missing untracked plugins/licences, different PHP version, memory/upload limits.
+- File permissions and ownership on the client server.
+- Polylang: language URLs/slugs live in options; re-save permalinks and check `/ne/`.
 ## Patterns from complex projects
