@@ -78,7 +78,9 @@ Three things move separately: **code** (git), **database** and **uploads** (bund
 1. Source: commit and push code (`git push`).
 2. Source shell: `scripts/pack-migration.sh` -> creates `backups/migration-<stamp>/` (DB, uploads, manifest with the source URL/path).
 3. Target shell: `git pull`.
-4. Target shell: `scripts/apply-migration.sh <bundle-dir> <target-url>`. It imports the DB (with a pre-import backup), unpacks uploads, replaces URLs (http + https) and absolute paths, flushes rewrites, and prints siteurl/home/plugins.
+4. Target shell (quote the path, it contains spaces; do not type the angle brackets, they are placeholders):
+   `scripts/apply-migration.sh "/Users/birajdulal/Local Sites/p2h-idp-june-2026-fullstack-wp/app/public/backups/migration-20261116-153000" http://p2h-idp-staging.local`
+   (list the real bundle folder name first with `ls` on the source site's `backups/` folder). It imports the DB (with a pre-import backup), unpacks uploads, replaces URLs (http + https) and absolute paths, flushes rewrites, and prints siteurl/home/plugins.
 5. Verify: front page, `/events/`, `/ne/events/`, language switcher, AJAX filter and `?transport=rest`, a single event, wp-admin login, media library images, permalinks.
 
 ### Migrate (staging -> client)
