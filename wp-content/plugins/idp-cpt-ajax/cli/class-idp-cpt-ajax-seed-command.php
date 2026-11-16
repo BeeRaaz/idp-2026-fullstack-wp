@@ -135,8 +135,8 @@ class IDP_CPT_AJAX_Seed_Command {
 		$lang = $assoc_args['lang'] ?? 'ne';
 		$this->assert_polylang( $lang );
 
-		$default  = pll_default_language();
-		$term_ids = $this->translate_terms( $default, $lang );
+		$default_lang = pll_default_language();
+		$term_ids     = $this->translate_terms( $default_lang, $lang );
 
 		$events = get_posts(
 			array(
@@ -153,12 +153,12 @@ class IDP_CPT_AJAX_Seed_Command {
 			$event_lang = pll_get_post_language( $event->ID );
 
 			if ( ! $event_lang ) {
-				pll_set_post_language( $event->ID, $default );
-				$event_lang = $default;
+				pll_set_post_language( $event->ID, $default_lang );
+				$event_lang = $default_lang;
 			}
 
 			// Only translate source-language events that have no translation yet.
-			if ( $event_lang !== $default || pll_get_post( $event->ID, $lang ) ) {
+			if ( $event_lang !== $default_lang || pll_get_post( $event->ID, $lang ) ) {
 				continue;
 			}
 
@@ -201,8 +201,8 @@ class IDP_CPT_AJAX_Seed_Command {
 
 			pll_save_post_translations(
 				array(
-					$default => $event->ID,
-					$lang    => $new_id,
+					$default_lang => $event->ID,
+					$lang         => $new_id,
 				)
 			);
 
@@ -215,11 +215,11 @@ class IDP_CPT_AJAX_Seed_Command {
 	/**
 	 * Ensure event types have a language and a translated term. Returns English name => translated term ID.
 	 *
-	 * @param string $default Default language slug.
+	 * @param string $default_lang Default language slug.
 	 * @param string $lang    Target language slug.
 	 * @return int[]
 	 */
-	private function translate_terms( $default, $lang ) {
+	private function translate_terms( $default_lang, $lang ) {
 		$map   = array();
 		$terms = get_terms(
 			array(
@@ -237,11 +237,11 @@ class IDP_CPT_AJAX_Seed_Command {
 			$term_lang = pll_get_term_language( $term->term_id );
 
 			if ( ! $term_lang ) {
-				pll_set_term_language( $term->term_id, $default );
-				$term_lang = $default;
+				pll_set_term_language( $term->term_id, $default_lang );
+				$term_lang = $default_lang;
 			}
 
-			if ( $term_lang !== $default ) {
+			if ( $term_lang !== $default_lang ) {
 				continue;
 			}
 
@@ -259,8 +259,8 @@ class IDP_CPT_AJAX_Seed_Command {
 				pll_set_term_language( $existing, $lang );
 				pll_save_term_translations(
 					array(
-						$default => $term->term_id,
-						$lang    => $existing,
+						$default_lang => $term->term_id,
+						$lang         => $existing,
 					)
 				);
 			}
