@@ -93,6 +93,8 @@ Same steps with staging as the source. Extra care for a real client: lock stagin
 - Decide go/no-go points before starting: if verification fails at step 5, roll back immediately and investigate on the copy.
 
 ### Gotchas to watch for
+- Paths with spaces (Local uses `Local Sites/`): quote every path in shell commands and never `source` a file containing them. A real migration bug caught during the first staging run (`manifest.env` parsing) came from this.
+- Placeholders like `<bundle-dir>` in docs are not literal: zsh reads `<...>` as redirection.
 - Hardcoded URLs in theme/plugin files or builder JSON (search-replace handles DB only).
 - Missing untracked plugins/licences, different PHP version, memory/upload limits.
 - File permissions and ownership on the client server.
