@@ -101,3 +101,4 @@ Same steps with staging as the source. Extra care for a real client: lock stagin
 - File permissions and ownership on the client server.
 - Polylang: language URLs/slugs live in options; re-save permalinks and check `/ne/`.
 ## Patterns from complex projects
+See [complex-projects-study.md](complex-projects-study.md): WooCommerce, ACF and Polylang (bootstrap, data layer, hooks, REST, security, caching), with a list of ideas for our plugin.
