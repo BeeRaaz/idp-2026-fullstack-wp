@@ -52,5 +52,18 @@ WPML vs Polylang (notes for later comparison):
 - WPML: paid, translation management/workflow, string/ATE tooling, heavier. Polylang free: language/UI basics, translations edited by hand; Pro adds slugs translation, REST, etc.
 - Both: translations are separate posts linked by language; content in default language is the "source".
 ## SQL import / export (WP-CLI)
+Scripts in `scripts/` (run from Local's "Open site shell"; dumps go to `backups/`, which is git-ignored because dumps contain user data):
+- `scripts/db-export.sh [label]`: gzipped, timestamped dump. Uses `--single-transaction` (no table locks) and `utf8mb4` (keeps Nepali text intact).
+- `scripts/db-import.sh <dump> [--yes]`: asks for confirmation, takes a `pre-import` safety backup, imports `.sql` or `.sql.gz`, then flushes cache and rewrite rules.
+- `scripts/db-search-replace.sh <old> <new> [--apply]`: dry run by default; `--apply` takes a `pre-search-replace` backup first.
+
+Rules of thumb:
+- Always export before import or search-replace. Never edit a dump with `sed`: serialized data stores string lengths and breaks.
+- `wp search-replace` unserializes, replaces, re-serializes. Skip the `guid` column (identifiers, not links).
+- Replace both `http://` and `https://` variants and, if needed, the filesystem path (`/Users/.../public` -> server path), because builders and plugins store absolute paths.
+- Large dumps: use `gzip`; if the import fails with "max_allowed_packet", raise it on the DB server; for very large DBs consider `mysql < dump.sql` directly, or dump per table (`wp db export --tables=...`).
+- After import: re-save permalinks (`wp rewrite flush`), clear caches, check `siteurl`/`home` (`wp option get siteurl`), and test a few pages/forms.
+- Reminder: don't commit `wp-config.php` or dumps; migrate secrets separately.
 ## Migration: client <-> staging checklist and rollback
+(To be written in the migration step; builds on the SQL scripts above.)
 ## Patterns from complex projects

@@ -30,3 +30,6 @@
 *.sql
 *.sql.gz
 .phpcs.cache
+
+# DB backups
+/backups/
