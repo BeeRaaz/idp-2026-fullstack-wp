@@ -1,0 +1,9 @@
+.idp-events-archive { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
+.idp-events-filter { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 2rem; }
+.idp-events-filter label span { display: block; font-size: .85rem; }
+#idp-events-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+#idp-events-results[aria-busy="true"] { opacity: .5; }
+.idp-event-card { border: 1px solid #ddd; border-radius: 6px; padding: 1rem; }
+.idp-event-card__title { font-size: 1.25rem; margin: 0 0 .5rem; }
+.idp-event-card__meta { display: flex; gap: .75rem; font-size: .9rem; color: #555; }
+#idp-events-more { margin-top: 2rem; }

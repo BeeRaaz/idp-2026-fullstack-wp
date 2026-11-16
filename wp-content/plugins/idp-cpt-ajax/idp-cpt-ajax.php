@@ -20,6 +20,9 @@ define( 'IDP_CPT_AJAX_URL', plugin_dir_url( __FILE__ ) );
 
 require_once IDP_CPT_AJAX_DIR . 'includes/post-types.php';
 require_once IDP_CPT_AJAX_DIR . 'includes/meta.php';
+require_once IDP_CPT_AJAX_DIR . 'includes/templates.php';
+require_once IDP_CPT_AJAX_DIR . 'includes/ajax.php';
+require_once IDP_CPT_AJAX_DIR . 'cli/class-idp-cpt-ajax-seed-command.php';
 
 /**
  * Flush rewrite rules on activation so the CPT URLs work immediately.
