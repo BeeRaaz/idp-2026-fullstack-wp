@@ -7,3 +7,4 @@
 .idp-event-card__title { font-size: 1.25rem; margin: 0 0 .5rem; }
 .idp-event-card__meta { display: flex; gap: .75rem; font-size: .9rem; color: #555; }
 #idp-events-more { margin-top: 2rem; }
+.idp-lang-switcher { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0 0 1rem; }

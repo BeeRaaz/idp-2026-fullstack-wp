@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $type      Event type term slug.
  *     @type string $date_from Y-m-d lower bound.
  *     @type int    $page      Page number.
+ *     @type string $lang      Polylang language slug.
  * }
  * @return array{html:string,max_pages:int,found:int}
  */
@@ -28,6 +29,7 @@ function idp_cpt_ajax_query_events( $args ) {
 			'type'      => '',
 			'date_from' => '',
 			'page'      => 1,
+			'lang'      => '',
 		)
 	);
 
@@ -40,6 +42,10 @@ function idp_cpt_ajax_query_events( $args ) {
 		'orderby'        => 'meta_value',
 		'order'          => 'ASC',
 	);
+
+	if ( '' !== $args['lang'] ) {
+		$query_args['lang'] = $args['lang']; // Polylang query var.
+	}
 
 	if ( '' !== $args['search'] ) {
 		$query_args['s'] = $args['search'];
@@ -99,6 +105,7 @@ function idp_cpt_ajax_handle_filter() {
 		'type'      => isset( $_POST['type'] ) ? sanitize_title( wp_unslash( $_POST['type'] ) ) : '',
 		'date_from' => isset( $_POST['date_from'] ) ? idp_cpt_ajax_sanitize_date( sanitize_text_field( wp_unslash( $_POST['date_from'] ) ) ) : '',
 		'page'      => isset( $_POST['page'] ) ? absint( wp_unslash( $_POST['page'] ) ) : 1,
+		'lang'      => isset( $_POST['lang'] ) ? idp_cpt_ajax_sanitize_lang( sanitize_key( wp_unslash( $_POST['lang'] ) ) ) : '',
 	);
 
 	wp_send_json_success( idp_cpt_ajax_query_events( $filters ) );

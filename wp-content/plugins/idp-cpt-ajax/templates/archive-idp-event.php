@@ -17,9 +17,12 @@ $idp_types = get_terms(
 );
 ?>
 <main class="idp-events-archive">
+	<?php idp_cpt_ajax_language_switcher(); ?>
 	<h1><?php esc_html_e( 'Events', 'idp-cpt-ajax' ); ?></h1>
+	<p class="idp-events-intro"><?php echo esc_html( idp_cpt_ajax_get_intro() ); ?></p>
 
 	<form class="idp-events-filter" id="idp-events-filter" method="get">
+		<input type="hidden" name="lang" value="<?php echo esc_attr( idp_cpt_ajax_current_lang() ); ?>">
 		<label>
 			<span><?php esc_html_e( 'Search', 'idp-cpt-ajax' ); ?></span>
 			<input type="search" name="search">
@@ -44,7 +47,7 @@ $idp_types = get_terms(
 
 	<div id="idp-events-results" aria-live="polite">
 		<?php
-		$idp_result = idp_cpt_ajax_query_events( array() );
+		$idp_result = idp_cpt_ajax_query_events( array( 'lang' => idp_cpt_ajax_current_lang() ) );
 		echo $idp_result['html']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped template parts.
 		?>
 	</div>

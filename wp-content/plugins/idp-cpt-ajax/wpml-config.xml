@@ -1,0 +1,13 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">idp_event</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">idp_event_type</taxonomy>
+	</taxonomies>
+	<custom-fields>
+		<custom-field action="copy">idp_event_date</custom-field>
+		<custom-field action="translate">idp_event_location</custom-field>
+		<custom-field action="copy">idp_event_capacity</custom-field>
+	</custom-fields>
+</wpml-config>

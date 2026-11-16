@@ -36,6 +36,11 @@ function idp_cpt_ajax_register_rest_routes() {
 					'default'           => '',
 					'sanitize_callback' => 'idp_cpt_ajax_sanitize_date',
 				),
+				'lang'      => array(
+					'type'              => 'string',
+					'default'           => '',
+					'sanitize_callback' => 'idp_cpt_ajax_sanitize_lang',
+				),
 				'page'      => array(
 					'type'              => 'integer',
 					'default'           => 1,
@@ -61,6 +66,7 @@ function idp_cpt_ajax_rest_get_events( $request ) {
 			'type'      => $request->get_param( 'type' ),
 			'date_from' => $request->get_param( 'date_from' ),
 			'page'      => $request->get_param( 'page' ),
+			'lang'      => $request->get_param( 'lang' ),
 		)
 	);
 
